@@ -1,7 +1,10 @@
 package de.ait_tr.g_33_shop.controller;
 
-import de.ait_tr.g_33_shop.domain.entity.Product;
+import de.ait_tr.g_33_shop.domain.dto.ProductDto;
 import de.ait_tr.g_33_shop.service.interfaces.ProductService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
@@ -9,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
+@Tag(name = "Product controller", description = "Controller for various operations with Products")
 public class ProductController {
 
     private final ProductService service;
@@ -22,18 +26,30 @@ public class ProductController {
     // Create: POST -> localhost:8080/products
 
     @PostMapping
-    public Product save(@RequestBody Product product) {
+    public ProductDto save(
+            @RequestBody
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Instance of a Product")
+            ProductDto product
+    ) {
         return service.save(product);
     }
 
     // Read: GET -> localhost:8080/products?id=3
 
+    @Operation(
+            summary = "Get one or all products",
+            description = "Getting one or all products that exist in the database"
+    )
     @GetMapping
-    public List<Product> get(@RequestParam(required = false) Long id) {
+    public List<ProductDto> get(
+            @RequestParam(required = false)
+            @Parameter(description = "Product unique identifier")
+            Long id
+    ) {
         if (id == null) {
             return service.getAllActiveProducts();
         } else {
-            Product product = service.getById(id);
+            ProductDto product = service.getById(id);
             return product == null ? null : List.of(product);
         }
     }
@@ -47,7 +63,7 @@ public class ProductController {
     // Update: PUT -> localhost:8080/products
 
     @PutMapping
-    public Product update(@RequestBody Product product) {
+    public ProductDto update(@RequestBody ProductDto product) {
         return service.update(product);
     }
 
