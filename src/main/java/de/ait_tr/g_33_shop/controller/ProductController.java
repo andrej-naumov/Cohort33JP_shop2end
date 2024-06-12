@@ -25,6 +25,11 @@ public class ProductController {
 
     // Create: POST -> localhost:8080/products
 
+    // Три уровня доступа к приложению:
+    // 1. Получить все продукты могут все пользователи, в том числе анонимные
+    // 2. Получить продукт по идентификатору могут только аутентифицированные пользователи с любой ролью
+    // 3. Сохранить продукт в базу данных может только администратор
+
     @PostMapping
     public ProductDto save(
             @RequestBody
@@ -37,28 +42,22 @@ public class ProductController {
     // Read: GET -> localhost:8080/products?id=3
 
     @Operation(
-            summary = "Get one or all products",
-            description = "Getting one or all products that exist in the database"
+            summary = "Get product by id",
+            description = "Getting one product that exists in the database by its id"
     )
     @GetMapping
-    public List<ProductDto> get(
-            @RequestParam(required = false)
+    public ProductDto getById(
+            @RequestParam
             @Parameter(description = "Product unique identifier")
             Long id
     ) {
-        if (id == null) {
-            return service.getAllActiveProducts();
-        } else {
-            ProductDto product = service.getById(id);
-            return product == null ? null : List.of(product);
-        }
+        return service.getById(id);
     }
 
-//    @GetMapping("/all")
-//    public List<Product> getAll() {
-//        // TODO обращаемся к сервису и запрашиваем все продукты
-//        return null;
-//    }
+    @GetMapping("/all")
+    public List<ProductDto> getAll() {
+        return service.getAllActiveProducts();
+    }
 
     // Update: PUT -> localhost:8080/products
 
