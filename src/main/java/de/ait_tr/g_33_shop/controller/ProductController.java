@@ -90,6 +90,8 @@ public class ProductController {
         return service.getAllActiveProductsQuantity();
     }
 
+    // GET -> http://localhost:8080/products/total-price
+
     @GetMapping("/total-price")
     public BigDecimal getTotalPrice() {
         return service.getAllActiveProductsTotalPrice();
