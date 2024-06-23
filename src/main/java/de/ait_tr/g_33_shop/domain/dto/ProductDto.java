@@ -1,7 +1,6 @@
 package de.ait_tr.g_33_shop.domain.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.*;
 
 import java.math.BigDecimal;
 import java.util.Objects;

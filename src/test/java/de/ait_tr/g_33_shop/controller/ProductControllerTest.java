@@ -3,6 +3,7 @@ package de.ait_tr.g_33_shop.controller;
 import de.ait_tr.g_33_shop.domain.dto.ProductDto;
 import de.ait_tr.g_33_shop.domain.entity.Role;
 import de.ait_tr.g_33_shop.domain.entity.User;
+import de.ait_tr.g_33_shop.repository.ProductRepository;
 import de.ait_tr.g_33_shop.repository.RoleRepository;
 import de.ait_tr.g_33_shop.repository.UserRepository;
 import de.ait_tr.g_33_shop.security.sec_dto.TokenResponseDto;
@@ -33,6 +34,9 @@ class ProductControllerTest {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
     private TestRestTemplate template;
     private HttpHeaders headers;
     private ProductDto testProduct;
@@ -52,10 +56,15 @@ class ProductControllerTest {
     private final String PRODUCTS_RESOURCE_NAME = "/products";
     private final String LOGIN_ENDPOINT = "/login";
     private final String ALL_ENDPOINT = "/all";
+    private final String ID_PARAM_NAME = "?id=";
+
+    // localhost:8080/products?id=7
 
     // Bearer 987f8snjsbfsf87fshfjbaf8fy7sgfsbfhsdf
     private final String BEARER_PREFIX = "Bearer ";
     private final String AUTH_HEADER_NAME = "Authorization";
+
+    private static Long savedProductId;
 
     @BeforeEach
     public void setUp() {
@@ -169,7 +178,15 @@ class ProductControllerTest {
     @Test
     @Order(1)
     public void positiveSavingProductWithAdminAuthorization() {
-        // TODO домашнее задание
+        String url = URL_PREFIX + port + PRODUCTS_RESOURCE_NAME;
+        headers.put(AUTH_HEADER_NAME, List.of(adminAccessToken));
+        HttpEntity<ProductDto> request = new HttpEntity<>(testProduct, headers);
+        ResponseEntity<ProductDto> response = template
+                .exchange(url, HttpMethod.POST, request, ProductDto.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode(), "Response has unexpected status");
+        assertNotNull(response.getBody(), "Response body is null");
+        assertEquals(TEST_PRODUCT_TITLE, response.getBody().getTitle(), "Product name does not match");
+        savedProductId = response.getBody().getId();
     }
 
     @Test
@@ -197,7 +214,16 @@ class ProductControllerTest {
     @Test
     @Order(5)
     public void positiveGettingProductByIdWithCorrectToken() {
-        // TODO домашнее задание
-        // TODO удаляем из БД сохранённый тестовый продукт
+
+        String url = URL_PREFIX + port + PRODUCTS_RESOURCE_NAME + ID_PARAM_NAME + savedProductId;
+        headers.put(AUTH_HEADER_NAME, List.of(userAccessToken));
+        HttpEntity<ProductDto> request = new HttpEntity<>(headers);
+        ResponseEntity<ProductDto> response = template
+                .exchange(url, HttpMethod.GET, request, ProductDto.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode(), "Response has unexpected status");
+        assertNotNull(response.getBody(), "Response body is null");
+        assertEquals(TEST_PRODUCT_TITLE, response.getBody().getTitle(), "Product name does not match");
+
+        productRepository.deleteById(savedProductId);
     }
 }

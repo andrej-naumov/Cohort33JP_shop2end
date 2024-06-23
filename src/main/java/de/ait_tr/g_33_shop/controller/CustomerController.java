@@ -1,6 +1,6 @@
 package de.ait_tr.g_33_shop.controller;
 
-import de.ait_tr.g_33_shop.domain.entity.Customer;
+import de.ait_tr.g_33_shop.domain.dto.CustomerDto;
 import de.ait_tr.g_33_shop.service.interfaces.CustomerService;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +17,12 @@ public class CustomerController {
     }
 
     @PostMapping
-    public Customer save(@RequestBody Customer customer) {
+    public CustomerDto save(@RequestBody CustomerDto customer) {
         return service.save(customer);
     }
 
     @GetMapping
-    public List<Customer> get(@RequestParam(required = false) Long id) {
+    public List<CustomerDto> get(@RequestParam(required = false) Long id) {
         if (id == null) {
             return service.getAllActiveCustomers();
         } else {
@@ -31,7 +31,7 @@ public class CustomerController {
     }
 
     @PutMapping
-    public Customer update(@RequestBody Customer customer) {
+    public CustomerDto update(@RequestBody CustomerDto customer) {
         return service.update(customer);
     }
 

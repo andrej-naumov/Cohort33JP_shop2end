@@ -2,6 +2,7 @@ package de.ait_tr.g_33_shop.domain.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -23,10 +24,26 @@ public class Product {
 
     @Column(name = "title")
     @Schema(description = "Product title", example = "Banana")
+    @NotNull(message = "Product title cannot be null")
+    @NotBlank(message = "Product title cannot be empty")
+    @Pattern(
+            regexp = "[A-Z][a-z ]{2,}",
+            message = "Product title should be at least 3 character length " +
+                    "and start with capital letter"
+    )
     private String title;
 
     @Column(name = "price")
     @Schema(description = "Product price", example = "190.00")
+    @DecimalMin(
+            value = "5.00",
+            message = "Product price should be greater or equal than 5"
+    )
+    @DecimalMax(
+            value = "100000.00",
+            inclusive = false,
+            message = "Product price should be lesser than 100000"
+    )
     private BigDecimal price;
 
     @Column(name = "active")

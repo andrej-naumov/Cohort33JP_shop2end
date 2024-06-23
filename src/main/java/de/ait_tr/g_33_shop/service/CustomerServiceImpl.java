@@ -1,5 +1,6 @@
 package de.ait_tr.g_33_shop.service;
 
+import de.ait_tr.g_33_shop.domain.dto.CustomerDto;
 import de.ait_tr.g_33_shop.domain.entity.Customer;
 import de.ait_tr.g_33_shop.service.interfaces.CustomerService;
 import org.springframework.stereotype.Service;
@@ -11,22 +12,22 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
 
     @Override
-    public Customer save(Customer customer) {
+    public CustomerDto save(CustomerDto customer) {
         return null;
     }
 
     @Override
-    public List<Customer> getAllActiveCustomers() {
+    public List<CustomerDto> getAllActiveCustomers() {
         return null;
     }
 
     @Override
-    public Customer getById(Long id) {
+    public CustomerDto getById(Long id) {
         return null;
     }
 
     @Override
-    public Customer update(Customer customer) {
+    public CustomerDto update(CustomerDto customer) {
         return null;
     }
 
