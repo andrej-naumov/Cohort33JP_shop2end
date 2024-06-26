@@ -12,6 +12,21 @@ spring:
     properties:
       hibernate:
         auto_quote_keyword: true
+  mail:
+    username: ait.andrey.mailer@gmail.com
+    password: pglcwgkiqttlirzn
+    host: smtp.gmail.com
+    port: 587
+    properties:
+      mail:
+        debug: true
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            protocols: TLSv1.2
+            trust: smtp.gmail.com
 
 key:
   access: Tmu6OXdunqE7e4tVVWrJF3OdlxuJGcmvZt8yjSJqNXU=
