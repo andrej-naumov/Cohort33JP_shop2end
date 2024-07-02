@@ -1,8 +1,9 @@
 package de.ait_tr.g_33_shop.service;
 
 import de.ait_tr.g_33_shop.domain.dto.CustomerDto;
-import de.ait_tr.g_33_shop.domain.entity.Customer;
+import de.ait_tr.g_33_shop.repository.CustomerRepository;
 import de.ait_tr.g_33_shop.service.interfaces.CustomerService;
+import de.ait_tr.g_33_shop.service.mapping.CustomerMappingService;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -10,6 +11,14 @@ import java.util.List;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
+
+    private final CustomerRepository repository;
+    private final CustomerMappingService mappingService;
+
+    public CustomerServiceImpl(CustomerRepository repository, CustomerMappingService mappingService) {
+        this.repository = repository;
+        this.mappingService = mappingService;
+    }
 
     @Override
     public CustomerDto save(CustomerDto customer) {
