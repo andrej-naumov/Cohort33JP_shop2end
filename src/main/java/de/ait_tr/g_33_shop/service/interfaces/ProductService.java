@@ -1,6 +1,7 @@
 package de.ait_tr.g_33_shop.service.interfaces;
 
 import de.ait_tr.g_33_shop.domain.dto.ProductDto;
+import de.ait_tr.g_33_shop.domain.dto.ProductSupplyDto;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -18,4 +19,5 @@ public interface ProductService {
     BigDecimal getAllActiveProductsTotalPrice();
     BigDecimal getAllActiveProductsAveragePrice();
     void attachImage(String imgUrl, String productTitle);
+    List<ProductSupplyDto> getAllActiveProductsForSupply();
 }

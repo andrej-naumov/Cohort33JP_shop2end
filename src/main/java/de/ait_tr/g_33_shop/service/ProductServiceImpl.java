@@ -1,6 +1,7 @@
 package de.ait_tr.g_33_shop.service;
 
 import de.ait_tr.g_33_shop.domain.dto.ProductDto;
+import de.ait_tr.g_33_shop.domain.dto.ProductSupplyDto;
 import de.ait_tr.g_33_shop.domain.entity.Product;
 import de.ait_tr.g_33_shop.exception_handling.exceptions.FirstTestException;
 import de.ait_tr.g_33_shop.exception_handling.exceptions.FourthTestException;
@@ -102,5 +103,14 @@ public class ProductServiceImpl implements ProductService {
         );
 
         product.setImage(imgUrl);
+    }
+
+    @Override
+    public List<ProductSupplyDto> getAllActiveProductsForSupply() {
+        return repository.findAll()
+                .stream()
+                .filter(Product::isActive)
+                .map(mappingService::mapEntityToSupplyDto)
+                .toList();
     }
 }
