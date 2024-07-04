@@ -2,6 +2,7 @@ package de.ait_tr.g_33_shop.service.interfaces;
 
 import de.ait_tr.g_33_shop.domain.dto.ProductDto;
 import de.ait_tr.g_33_shop.domain.dto.ProductSupplyDto;
+import de.ait_tr.g_33_shop.domain.entity.Product;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -11,6 +12,7 @@ public interface ProductService {
     ProductDto save(ProductDto product);
     List<ProductDto> getAllActiveProducts();
     ProductDto getById(Long id);
+    Product getEntityById(Long id);
     ProductDto update(ProductDto product);
     void deleteById(Long id);
     void deleteByTitle(String title);

@@ -3,10 +3,7 @@ package de.ait_tr.g_33_shop.service;
 import de.ait_tr.g_33_shop.domain.dto.ProductDto;
 import de.ait_tr.g_33_shop.domain.dto.ProductSupplyDto;
 import de.ait_tr.g_33_shop.domain.entity.Product;
-import de.ait_tr.g_33_shop.exception_handling.exceptions.FirstTestException;
-import de.ait_tr.g_33_shop.exception_handling.exceptions.FourthTestException;
-import de.ait_tr.g_33_shop.exception_handling.exceptions.SecondTestException;
-import de.ait_tr.g_33_shop.exception_handling.exceptions.ThirdTestException;
+import de.ait_tr.g_33_shop.exception_handling.exceptions.*;
 import de.ait_tr.g_33_shop.repository.ProductRepository;
 import de.ait_tr.g_33_shop.service.interfaces.ProductService;
 import de.ait_tr.g_33_shop.service.mapping.ProductMappingService;
@@ -51,13 +48,20 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDto getById(Long id) {
-        Product product = repository.findById(id).orElse(null);
+        Product product = getEntityById(id);
 
         if (product != null && product.isActive()) {
             return mappingService.mapEntityToDto(product);
         }
 
         throw new ThirdTestException("This is third test exception");
+    }
+
+    @Override
+    public Product getEntityById(Long id) {
+        return repository.findById(id).orElseThrow(
+                () -> new ProductNotFoundException(id)
+        );
     }
 
     @Override

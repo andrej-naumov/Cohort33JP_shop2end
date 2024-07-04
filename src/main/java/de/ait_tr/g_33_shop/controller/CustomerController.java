@@ -4,6 +4,7 @@ import de.ait_tr.g_33_shop.domain.dto.CustomerDto;
 import de.ait_tr.g_33_shop.service.interfaces.CustomerService;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -50,5 +51,53 @@ public class CustomerController {
     @PutMapping("/restore")
     public void restore(@RequestParam Long id) {
         service.restoreById(id);
+    }
+
+    // GET -> localhost:8080/customers/number
+
+    @GetMapping("/number")
+    public long getActiveCustomersNumber() {
+        return service.getActiveCustomersNumber();
+    }
+
+    // GET -> localhost:8080/customers/5/products_cost
+
+    @GetMapping("/{customerId}/products_cost")
+    public BigDecimal getTotalCostOfCustomersProducts(@PathVariable Long customerId) {
+        return service.getTotalCostOfCustomersProducts(customerId);
+    }
+
+    // GET -> localhost:8080/customers/5/avg_product_cost
+
+    @GetMapping("/{customerId}/avg_product_cost")
+    public BigDecimal getAverageCostOfCustomersProducts(@PathVariable Long customerId) {
+        return service.getAverageCostOfCustomersProducts(customerId);
+    }
+
+    // PUT -> localhost:8080/customers/5/add_product/7
+
+    @PutMapping("/{customerId}/add_product/{productId}")
+    public void addProductToCustomersCart(
+            @PathVariable Long customerId,
+            @PathVariable Long productId
+    ) {
+        service.addProductToCustomersCart(customerId, productId);
+    }
+
+    // DELETE -> localhost:8080/customers/5/remove_product/7
+
+    @DeleteMapping("/{customerId}/remove_product/{productId}")
+    public void removeProductFromCustomersCart(
+            @PathVariable Long customerId,
+            @PathVariable Long productId
+    ) {
+        service.removeProductFromCustomersCart(customerId, productId);
+    }
+
+    // DELETE -> localhost:8080/customers/5/clear_cart
+
+    @DeleteMapping("/{customerId}/clear_cart")
+    public void clearCustomersCart(@PathVariable Long customerId) {
+        service.clearCustomersCart(customerId);
     }
 }
