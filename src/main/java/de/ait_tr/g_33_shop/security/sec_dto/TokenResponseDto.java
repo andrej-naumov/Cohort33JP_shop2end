@@ -2,7 +2,7 @@ package de.ait_tr.g_33_shop.security.sec_dto;
 
 import java.util.Objects;
 
-public class TokenResponseDto {
+public class    TokenResponseDto {
 
     private String accessToken;
     private String refreshToken;
